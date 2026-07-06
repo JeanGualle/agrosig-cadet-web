@@ -1,0 +1,197 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #1f2933;
+  background: #eef3ee;
+}
+
+.topbar {
+  height: 78px;
+  background: #1f6f43;
+  color: white;
+  padding: 12px 20px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.topbar p {
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+.layout {
+  height: calc(100vh - 108px);
+  display: grid;
+  grid-template-columns: 230px 1fr 360px;
+  gap: 10px;
+  padding: 10px;
+}
+
+.left-panel,
+.right-panel {
+  background: white;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  overflow-y: auto;
+}
+
+.left-panel h2,
+.right-panel h2 {
+  color: #1f6f43;
+  margin-top: 0;
+  font-size: 19px;
+}
+
+.left-panel label {
+  display: block;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.map-panel {
+  min-width: 0;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #1f6f43;
+  border-radius: 12px;
+}
+
+.legend {
+  border-top: 1px solid #ddd;
+  margin-top: 18px;
+  padding-top: 12px;
+}
+
+.box {
+  display: inline-block;
+  width: 22px;
+  height: 16px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.box.borde {
+  background: white;
+  border: 3px solid #111;
+}
+
+.box.cultivo {
+  background: #fdae61;
+}
+
+.box.invernadero {
+  background: #d7191c;
+}
+
+.box.bosque {
+  background: #006400;
+}
+
+.box.pasto {
+  background: #90ee90;
+}
+
+.line.agua {
+  display: inline-block;
+  width: 28px;
+  height: 4px;
+  background: #008cff;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.card {
+  border: 1px solid #d9e2d9;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: white;
+}
+
+label {
+  display: block;
+  margin-top: 9px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #b8c4b8;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: #1f6f43;
+  color: white;
+  border: none;
+  border-radius: 9px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #155c35;
+}
+
+.record {
+  border-left: 5px solid #1f6f43;
+  background: #f8faf8;
+  padding: 9px;
+  margin-top: 8px;
+  border-radius: 7px;
+  font-size: 13px;
+}
+
+.risk-pill {
+  color: white;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.footer {
+  height: 30px;
+  background: #143d29;
+  color: white;
+  padding: 7px 14px;
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 1050px) {
+  .layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  #map {
+    height: 60vh;
+  }
+
+  .topbar {
+    height: auto;
+  }
+}

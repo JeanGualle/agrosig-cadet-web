@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroSIG CADET - La Morita</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>🌱 AgroSIG CADET - La Morita</h1>
+      <p>Visor web para monitoreo de cultivos, riesgo potencial de plagas y tratamientos aplicados</p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="left-panel">
+      <h2>Capas SIG</h2>
+
+      <label><input type="checkbox" class="layer-toggle" data-layer="borde" checked> Borde CADET</label>
+      <label><input type="checkbox" class="layer-toggle" data-layer="cultivos" checked> Cultivos</label>
+      <label><input type="checkbox" class="layer-toggle" data-layer="invernaderos" checked> Invernaderos</label>
+      <label><input type="checkbox" class="layer-toggle" data-layer="bosque" checked> Bosque</label>
+      <label><input type="checkbox" class="layer-toggle" data-layer="pastos" checked> Pastos</label>
+      <label><input type="checkbox" class="layer-toggle" data-layer="pasoAgua" checked> Paso de agua</label>
+
+      <section class="legend">
+        <h2>Simbología</h2>
+        <p><span class="box borde"></span> Borde CADET</p>
+        <p><span class="box cultivo"></span> Cultivos por riesgo</p>
+        <p><span class="box invernadero"></span> Invernaderos</p>
+        <p><span class="box bosque"></span> Bosque</p>
+        <p><span class="box pasto"></span> Pastos</p>
+        <p><span class="line agua"></span> Paso de agua</p>
+      </section>
+    </aside>
+
+    <section class="map-panel">
+      <div id="map"></div>
+    </section>
+
+    <aside class="right-panel">
+      <section class="card">
+        <h2>Información</h2>
+        <div id="info">
+          <p>Haz clic sobre una capa del mapa para ver su información.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Registro de monitoreo</h2>
+
+        <label>Área / cultivo seleccionado</label>
+        <input id="area" type="text" readonly placeholder="Seleccione en el mapa">
+
+        <label>Plaga observada</label>
+        <input id="plaga" type="text" placeholder="Ej. mosca blanca, pulgón, trips">
+
+        <label>Riesgo observado</label>
+        <select id="riesgo">
+          <option>Bajo</option>
+          <option>Medio</option>
+          <option>Alto</option>
+          <option>Muy alto</option>
+        </select>
+
+        <label>Tratamiento aplicado</label>
+        <input id="tratamiento" type="text" placeholder="Ej. neem, Beauveria, control manual">
+
+        <label>Observaciones</label>
+        <textarea id="observaciones" rows="3" placeholder="Síntomas, severidad, fecha de aplicación..."></textarea>
+
+        <label>Fotografía</label>
+        <input id="foto" type="file" accept="image/*">
+
+        <button id="guardar">Guardar registro</button>
+      </section>
+
+      <section class="card">
+        <h2>Historial local</h2>
+        <div id="historial"></div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    Elaboración propia con QGIS, GeoJSON, Leaflet y OpenStreetMap | AgroSIG CADET
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
