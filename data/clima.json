@@ -1,0 +1,31 @@
+{
+  "2025": {
+    "enero": {
+      "temperatura": 16.2,
+      "humedad": 76,
+      "precipitacion": 79.1,
+      "evaporacion": 115.4,
+      "heliofania": 152.9,
+      "viento": 1.6,
+      "nubosidad": 6
+    },
+    "febrero": {
+      "temperatura": 16.5,
+      "humedad": 80,
+      "precipitacion": 114.1,
+      "evaporacion": 84.5,
+      "heliofania": 95.3,
+      "viento": 1.2,
+      "nubosidad": 6
+    },
+    "marzo": {
+      "temperatura": 16.4,
+      "humedad": 80,
+      "precipitacion": 186.7,
+      "evaporacion": 93.7,
+      "heliofania": 87.8,
+      "viento": 1.1,
+      "nubosidad": 7
+    }
+  }
+}

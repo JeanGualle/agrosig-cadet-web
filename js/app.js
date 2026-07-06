@@ -202,3 +202,53 @@ document.getElementById('guardar').addEventListener('click', () => {
 });
 
 cargarHistorial();
+// ===============================
+// VARIABLES MICROCLIMÁTICAS
+// ===============================
+
+let datosClima = {};
+
+fetch("data/clima.json")
+  .then(res => res.json())
+  .then(data => {
+    datosClima = data;
+    actualizarClima();
+  });
+
+function actualizarClima() {
+
+  const anio = document.getElementById("anioClima").value;
+  const mes = document.getElementById("mesClima").value;
+
+  if (!datosClima[anio]) return;
+  if (!datosClima[anio][mes]) return;
+
+  const d = datosClima[anio][mes];
+
+  document.getElementById("datosClima").innerHTML = `
+    <p>🌡 <strong>Temperatura:</strong> ${d.temperatura} °C</p>
+    <p>💧 <strong>Humedad:</strong> ${d.humedad} %</p>
+    <p>🌧 <strong>Precipitación:</strong> ${d.precipitacion} mm</p>
+    <p>💦 <strong>Evaporación:</strong> ${d.evaporacion} mm</p>
+    <p>☀ <strong>Heliofanía:</strong> ${d.heliofania} h</p>
+    <p>💨 <strong>Viento:</strong> ${d.viento} m/s</p>
+    <p>☁ <strong>Nubosidad:</strong> ${d.nubosidad} octas</p>
+  `;
+
+  let riesgo = "🟢 Bajo";
+
+  if (d.humedad >= 80 && d.precipitacion >= 150)
+      riesgo = "🔴 Alto";
+
+  else if (d.humedad >= 75)
+      riesgo = "🟡 Medio";
+
+  document.getElementById("riesgoClimatico").innerHTML =
+      `<h3>Riesgo climático</h3><h2>${riesgo}</h2>`;
+}
+
+document.getElementById("anioClima")
+.addEventListener("change", actualizarClima);
+
+document.getElementById("mesClima")
+.addEventListener("change", actualizarClima);
