@@ -24,14 +24,17 @@ function textoRiesgo(valor) {
 }
 
 function obtenerNombre(properties) {
-  return properties.Cultivos ||
-    properties.Bosque ||
-    properties.Pastos ||
-    properties.Invernaderos ||
-    properties.Nombre ||
-    properties.name ||
-    properties.id ||
-    'Elemento SIG';
+  if (properties.Cultivos) return properties.Cultivos;
+  if (properties.Bosque) return 'Bosque';
+  if (properties.Pastos) return 'Pastos';
+  if (properties.Invernaderos) return properties.Invernaderos;
+  if (properties.CADET) return 'Área del CADET';
+  if (properties.Nombre) return properties.Nombre;
+  if (properties.name) return properties.name;
+  if (properties.id) return 'Elemento ' + properties.id;
+  if (properties.fid) return 'Elemento SIG ' + properties.fid;
+
+  return 'Elemento SIG';
 }
 
 function mostrarInfo(titulo, props, riesgo) {
