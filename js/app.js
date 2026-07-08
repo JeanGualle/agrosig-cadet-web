@@ -156,71 +156,184 @@ document.querySelectorAll('.layer-toggle').forEach(input => {
   });
 });
 
-function cargarHistorial() {
-  const historial = JSON.parse(localStorage.getItem('registrosAgroSIG') || '[]');
-  const contenedor = document.getElementById('historial');
-  contenedor.innerHTML = '';
+function renderizarHistorial(historial) {
+
+  const contenedor = document.getElementById("historial");
+  contenedor.innerHTML = "";
 
   if (historial.length === 0) {
-    contenedor.innerHTML = '<p>Todavía no hay registros.</p>';
+    contenedor.innerHTML = "<p>Todavía no hay registros.</p>";
     return;
   }
 
-  historial.slice().reverse().forEach(reg => {
-    const div = document.createElement('div');
-    div.className = 'record';
+  historial.forEach(reg => {
+
+    const div = document.createElement("div");
+    div.className = "record";
+
     div.innerHTML = `
-      <strong>${reg.fecha}</strong><br>
-      <strong>Área:</strong> ${reg.area}<br>
-      <strong>Plaga:</strong> ${reg.plaga}<br>
-      <strong>Riesgo:</strong> ${reg.riesgo}<br>
-      <strong>Tratamiento:</strong> ${reg.tratamiento}<br>
-      <strong>Observaciones:</strong> ${reg.observaciones}<br>
-    ${reg.foto ? `<img src="${reg.foto}" style="width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:8px;">` : ''}
-     `;
+      <strong>${reg.fecha || ""}</strong><br>
+      <strong>Área:</strong> ${reg.area || ""}<br>
+      <strong>Plaga:</strong> ${reg.plaga || ""}<br>
+      <strong>Riesgo:</strong> ${reg.riesgo || ""}<br>
+      <strong>Tratamiento:</strong> ${reg.tratamiento || ""}<br>
+      <strong>Observaciones:</strong> ${reg.observaciones || ""}<br>
+      ${reg.foto ? `<img src="${reg.foto}" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-top:8px;">` : ""}
+    `;
+
     contenedor.appendChild(div);
+
   });
+
 }
 
-document.getElementById('guardar').addEventListener('click', () => {
-  const archivoFoto = document.getElementById('foto').files[0];
+// ===============================
+// HISTORIAL DE REGISTROS
+// ===============================
 
-  const guardarRegistro = (fotoBase64 = '') => {
+function renderizarHistorial(historial) {
+
+  const contenedor = document.getElementById("historial");
+  contenedor.innerHTML = "";
+
+  if (historial.length === 0) {
+    contenedor.innerHTML = "<p>Todavía no hay registros.</p>";
+    return;
+  }
+
+  historial.forEach(reg => {
+
+    const div = document.createElement("div");
+    div.className = "record";
+
+    div.innerHTML = `
+      <strong>${reg.fecha || ""}</strong><br>
+      <strong>Área:</strong> ${reg.area || ""}<br>
+      <strong>Plaga:</strong> ${reg.plaga || ""}<br>
+      <strong>Riesgo:</strong> ${reg.riesgo || ""}<br>
+      <strong>Tratamiento:</strong> ${reg.tratamiento || ""}<br>
+      <strong>Observaciones:</strong> ${reg.observaciones || ""}<br>
+
+      ${
+        reg.foto
+          ? `<img src="${reg.foto}" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-top:8px;">`
+          : ""
+      }
+
+    `;
+
+    contenedor.appendChild(div);
+
+  });
+
+}
+
+function cargarHistorial() {
+
+  const contenedor = document.getElementById("historial");
+  contenedor.innerHTML = "<p>Cargando registros...</p>";
+
+  if (window.escucharRegistrosFirebase) {
+
+    window.escucharRegistrosFirebase((registros) => {
+      renderizarHistorial(registros);
+    });
+
+  } else {
+
+    const historialLocal = JSON.parse(
+      localStorage.getItem("registrosAgroSIG") || "[]"
+    ).reverse();
+
+    renderizarHistorial(historialLocal);
+
+  }
+
+}
+
+document.getElementById("guardar").addEventListener("click", () => {
+
+  const archivoFoto = document.getElementById("foto").files[0];
+
+  const guardarRegistro = (fotoBase64 = "") => {
+
     const registro = {
       fecha: new Date().toLocaleString(),
-      area: document.getElementById('area').value || 'Sin área seleccionada',
-      plaga: document.getElementById('plaga').value || 'Sin dato',
-      riesgo: document.getElementById('riesgo').value,
-      tratamiento: document.getElementById('tratamiento').value || 'Sin dato',
-      observaciones: document.getElementById('observaciones').value || 'Sin observaciones',
+      area: document.getElementById("area").value || "Sin área seleccionada",
+      plaga: document.getElementById("plaga").value || "Sin dato",
+      riesgo: document.getElementById("riesgo").value,
+      tratamiento: document.getElementById("tratamiento").value || "Sin dato",
+      observaciones: document.getElementById("observaciones").value || "Sin observaciones",
       foto: fotoBase64
     };
 
-    const historial = JSON.parse(localStorage.getItem('registrosAgroSIG') || '[]');
-    historial.push(registro);
-    localStorage.setItem('registrosAgroSIG', JSON.stringify(historial));
+    if (window.guardarRegistroFirebase) {
 
-    document.getElementById('plaga').value = '';
-    document.getElementById('tratamiento').value = '';
-    document.getElementById('observaciones').value = '';
-    document.getElementById('foto').value = '';
+      window.guardarRegistroFirebase(registro)
+        .then(() => {
+          console.log("Registro enviado a Firebase.");
+        })
+        .catch((error) => {
+          console.error(error);
 
-    cargarHistorial();
-    alert('Registro guardado correctamente.');
+          // Respaldo local
+          const historial = JSON.parse(
+            localStorage.getItem("registrosAgroSIG") || "[]"
+          );
+
+          historial.push(registro);
+
+          localStorage.setItem(
+            "registrosAgroSIG",
+            JSON.stringify(historial)
+          );
+
+        });
+
+    } else {
+
+      const historial = JSON.parse(
+        localStorage.getItem("registrosAgroSIG") || "[]"
+      );
+
+      historial.push(registro);
+
+      localStorage.setItem(
+        "registrosAgroSIG",
+        JSON.stringify(historial)
+      );
+
+    }
+
+    document.getElementById("plaga").value = "";
+    document.getElementById("tratamiento").value = "";
+    document.getElementById("observaciones").value = "";
+    document.getElementById("foto").value = "";
+
+    alert("Registro guardado correctamente.");
+
   };
 
   if (archivoFoto) {
+
     const lector = new FileReader();
-    lector.onload = function(evento) {
+
+    lector.onload = (evento) => {
       guardarRegistro(evento.target.result);
     };
+
     lector.readAsDataURL(archivoFoto);
+
   } else {
+
     guardarRegistro();
+
   }
+
 });
 
 cargarHistorial();
+
 // ===============================
 // VARIABLES MICROCLIMÁTICAS
 // ===============================
@@ -271,3 +384,9 @@ document.getElementById("anioClima")
 
 document.getElementById("mesClima")
 .addEventListener("change", actualizarClima);
+
+if (window.escucharRegistrosFirebase) {
+  cargarHistorial();
+} else {
+  window.addEventListener("firebaseListo", cargarHistorial);
+}
