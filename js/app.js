@@ -156,30 +156,66 @@ document.querySelectorAll('.layer-toggle').forEach(input => {
   });
 });
 
-function cargarHistorial() {
-  const historial = JSON.parse(localStorage.getItem('registrosAgroSIG') || '[]');
-  const contenedor = document.getElementById('historial');
-  contenedor.innerHTML = '';
+async function cargarHistorial() {
 
-  if (historial.length === 0) {
-    contenedor.innerHTML = '<p>Todavía no hay registros.</p>';
-    return;
-  }
+    const contenedor = document.getElementById("historial");
+    contenedor.innerHTML = "<p>Cargando...</p>";
 
-  historial.slice().reverse().forEach(reg => {
-    const div = document.createElement('div');
-    div.className = 'record';
-    div.innerHTML = `
-      <strong>${reg.fecha}</strong><br>
-      <strong>Área:</strong> ${reg.area}<br>
-      <strong>Plaga:</strong> ${reg.plaga}<br>
-      <strong>Riesgo:</strong> ${reg.riesgo}<br>
-      <strong>Tratamiento:</strong> ${reg.tratamiento}<br>
-      <strong>Observaciones:</strong> ${reg.observaciones}<br>
-    ${reg.foto ? `<img src="${reg.foto}" style="width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:8px;">` : ''}
-     `;
-    contenedor.appendChild(div);
-  });
+    let historial = [];
+
+    if (window.leerRegistrosFirebase) {
+
+        historial = await window.leerRegistrosFirebase();
+
+    }
+
+    if (historial.length === 0) {
+
+        historial = JSON.parse(
+            localStorage.getItem("registrosAgroSIG") || "[]"
+        ).reverse();
+
+    }
+
+    contenedor.innerHTML = "";
+
+    if (historial.length === 0) {
+
+        contenedor.innerHTML = "<p>Todavía no hay registros.</p>";
+        return;
+
+    }
+
+    historial.forEach(reg => {
+
+        const div = document.createElement("div");
+        div.className = "record";
+
+        div.innerHTML = `
+            <strong>${reg.fecha || ""}</strong><br>
+
+            <strong>Área:</strong> ${reg.area || ""}<br>
+
+            <strong>Plaga:</strong> ${reg.plaga || ""}<br>
+
+            <strong>Riesgo:</strong> ${reg.riesgo || ""}<br>
+
+            <strong>Tratamiento:</strong> ${reg.tratamiento || ""}<br>
+
+            <strong>Observaciones:</strong> ${reg.observaciones || ""}<br>
+
+            ${
+                reg.foto
+                ? `<img src="${reg.foto}" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;">`
+                : ""
+            }
+
+        `;
+
+        contenedor.appendChild(div);
+
+    });
+
 }
 
 document.getElementById('guardar').addEventListener('click', () => {
@@ -196,9 +232,19 @@ document.getElementById('guardar').addEventListener('click', () => {
       foto: fotoBase64
     };
 
-    const historial = JSON.parse(localStorage.getItem('registrosAgroSIG') || '[]');
-    historial.push(registro);
-    localStorage.setItem('registrosAgroSIG', JSON.stringify(historial));
+    if (window.guardarRegistroFirebase) {
+    window.guardarRegistroFirebase(registro)
+        .then(() => {
+            console.log("Registro enviado a Firebase.");
+        })
+        .catch(() => {
+            console.warn("No se pudo guardar en Firebase. Se guardará localmente.");
+        });
+}
+
+const historial = JSON.parse(localStorage.getItem('registrosAgroSIG') || '[]');
+historial.push(registro);
+localStorage.setItem('registrosAgroSIG', JSON.stringify(historial));
 
     document.getElementById('plaga').value = '';
     document.getElementById('tratamiento').value = '';
