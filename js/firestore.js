@@ -1,9 +1,14 @@
+console.log("🔥 firestore.js cargado");
+
 import { db } from "./firebase.js";
 
 import {
   collection,
   addDoc,
   getDocs,
+  doc,
+  deleteDoc,
+  onSnapshot,
   query,
   orderBy,
   serverTimestamp
@@ -55,6 +60,47 @@ async function leerRegistrosFirebase() {
 
 }
 
+function escucharRegistrosFirebase(callback) {
+  const q = query(
+    collection(db, "monitoreos"),
+    orderBy("creadoEn", "desc")
+  );
+
+  return onSnapshot(q, (snapshot) => {
+    const registros = [];
+
+    snapshot.forEach((documento) => {
+      registros.push({
+        id: documento.id,
+        ...documento.data()
+      });
+    });
+
+    console.log("Historial actualizado en tiempo real:", registros.length);
+    callback(registros);
+  });
+}
+
+async function eliminarRegistroFirebase(id) {
+
+    try {
+
+        await deleteDoc(doc(db, "monitoreos", id));
+
+        console.log("Registro eliminado:", id);
+
+    } catch (error) {
+
+        console.error("Error eliminando registro:", error);
+
+    }
+
+}
 
 window.guardarRegistroFirebase = guardarRegistroFirebase;
 window.leerRegistrosFirebase = leerRegistrosFirebase;
+window.eliminarRegistroFirebase = eliminarRegistroFirebase;
+window.escucharRegistrosFirebase = escucharRegistrosFirebase;
+
+console.log("✅ funciones Firebase disponibles");
+window.dispatchEvent(new Event("firebaseListo"));
