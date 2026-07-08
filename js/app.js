@@ -175,33 +175,49 @@ function cargarHistorial() {
       <strong>Plaga:</strong> ${reg.plaga}<br>
       <strong>Riesgo:</strong> ${reg.riesgo}<br>
       <strong>Tratamiento:</strong> ${reg.tratamiento}<br>
-      <strong>Observaciones:</strong> ${reg.observaciones}
-    `;
+      <strong>Observaciones:</strong> ${reg.observaciones}<br>
+    ${reg.foto ? `<img src="${reg.foto}" style="width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:8px;">` : ''}
+     `;
     contenedor.appendChild(div);
   });
 }
 
 document.getElementById('guardar').addEventListener('click', () => {
-  const registro = {
-    fecha: new Date().toLocaleString(),
-    area: document.getElementById('area').value || 'Sin área seleccionada',
-    plaga: document.getElementById('plaga').value || 'Sin dato',
-    riesgo: document.getElementById('riesgo').value,
-    tratamiento: document.getElementById('tratamiento').value || 'Sin dato',
-    observaciones: document.getElementById('observaciones').value || 'Sin observaciones'
+  const archivoFoto = document.getElementById('foto').files[0];
+
+  const guardarRegistro = (fotoBase64 = '') => {
+    const registro = {
+      fecha: new Date().toLocaleString(),
+      area: document.getElementById('area').value || 'Sin área seleccionada',
+      plaga: document.getElementById('plaga').value || 'Sin dato',
+      riesgo: document.getElementById('riesgo').value,
+      tratamiento: document.getElementById('tratamiento').value || 'Sin dato',
+      observaciones: document.getElementById('observaciones').value || 'Sin observaciones',
+      foto: fotoBase64
+    };
+
+    const historial = JSON.parse(localStorage.getItem('registrosAgroSIG') || '[]');
+    historial.push(registro);
+    localStorage.setItem('registrosAgroSIG', JSON.stringify(historial));
+
+    document.getElementById('plaga').value = '';
+    document.getElementById('tratamiento').value = '';
+    document.getElementById('observaciones').value = '';
+    document.getElementById('foto').value = '';
+
+    cargarHistorial();
+    alert('Registro guardado correctamente.');
   };
 
-  const historial = JSON.parse(localStorage.getItem('registrosAgroSIG') || '[]');
-  historial.push(registro);
-  localStorage.setItem('registrosAgroSIG', JSON.stringify(historial));
-
-  document.getElementById('plaga').value = '';
-  document.getElementById('tratamiento').value = '';
-  document.getElementById('observaciones').value = '';
-  document.getElementById('foto').value = '';
-
-  cargarHistorial();
-  alert('Registro guardado correctamente.');
+  if (archivoFoto) {
+    const lector = new FileReader();
+    lector.onload = function(evento) {
+      guardarRegistro(evento.target.result);
+    };
+    lector.readAsDataURL(archivoFoto);
+  } else {
+    guardarRegistro();
+  }
 });
 
 cargarHistorial();
