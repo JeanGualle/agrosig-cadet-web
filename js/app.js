@@ -207,22 +207,47 @@ function renderizarHistorial(historial) {
     div.className = "record";
 
     div.innerHTML = `
-      <strong>${reg.fecha || ""}</strong><br>
-      <strong>Área:</strong> ${reg.area || ""}<br>
-      <strong>Plaga:</strong> ${reg.plaga || ""}<br>
-      <strong>Riesgo:</strong> ${reg.riesgo || ""}<br>
-      <strong>Tratamiento:</strong> ${reg.tratamiento || ""}<br>
-      <strong>Observaciones:</strong> ${reg.observaciones || ""}<br>
+      <strong>📅 ${reg.fecha || ""}</strong><br>
+
+      <strong>🌱 Área:</strong> ${reg.area || ""}<br>
+      <strong>🐛 Plaga:</strong> ${reg.plaga || ""}<br>
+      <strong>⚠️ Riesgo:</strong> ${reg.riesgo || ""}<br>
+      <strong>💊 Tratamiento:</strong> ${reg.tratamiento || ""}<br>
+      <strong>📝 Observaciones:</strong> ${reg.observaciones || ""}<br>
 
       ${
         reg.foto
-          ? `<img src="${reg.foto}" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-top:8px;">`
+          ? `<img src="${reg.foto}"
+                 style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-top:8px;">`
           : ""
       }
 
+      <div style="margin-top:12px;display:flex;justify-content:flex-end;">
+        <button class="btn-eliminar" data-id="${reg.id}">
+          🗑️ Eliminar
+        </button>
+      </div>
     `;
 
     contenedor.appendChild(div);
+
+  });
+
+  document.querySelectorAll(".btn-eliminar").forEach(boton => {
+
+    boton.addEventListener("click", async () => {
+
+      if (!confirm("¿Deseas eliminar este registro?")) return;
+
+      const id = boton.dataset.id;
+
+      if (window.eliminarRegistroFirebase) {
+
+        await window.eliminarRegistroFirebase(id);
+
+      }
+
+    });
 
   });
 
