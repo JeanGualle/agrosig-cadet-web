@@ -3,17 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AgroSIG CADET - La Morita</title>
+  <title>🌱 AgroSIG CADET | Universidad Central del Ecuador</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="topbar">
-    <div>
-      <h1>🌱 AgroSIG CADET - La Morita</h1>
-      <p>Visor web para monitoreo de cultivos, riesgo potencial de plagas y tratamientos aplicados</p>
-    </div>
-  </header>
+
+  <img src="assets/logo-uce.png" class="logo-uce" alt="Universidad Central del Ecuador">
+
+  <div class="titulo">
+    <h1>AgroSIG CADET - La Morita</h1>
+    <h3>Sistema Inteligente para el Monitoreo Agrícola</h3>
+    <p>
+      Universidad Central del Ecuador<br>
+      Facultad de Ciencias Agrícolas
+    </p>
+  </div>
+
+</header>
 
   <main class="layout">
     <aside class="left-panel">
@@ -42,12 +50,57 @@
     </section>
 
     <aside class="right-panel">
+
       <section class="card">
-        <h2>Información</h2>
-        <div id="info">
-          <p>Haz clic sobre una capa del mapa para ver su información.</p>
-        </div>
-      </section>
+  <h2>📊 Dashboard AgroSIG</h2>
+
+  <div class="dashboard">
+    <div class="dash-card">
+      <span>📄</span>
+      <strong id="totalRegistros">0</strong>
+      <p>Registros</p>
+    </div>
+
+    <div class="dash-card">
+      <span>🌱</span>
+      <strong id="totalAreas">0</strong>
+      <p>Áreas</p>
+    </div>
+
+    <div class="dash-card">
+      <span>🐛</span>
+      <strong id="plagaPrincipal">-</strong>
+      <p>Plaga principal</p>
+    </div>
+
+    <div class="dash-card">
+      <span>⚠️</span>
+      <strong id="riesgoAlto">0</strong>
+      <p>Riesgo alto</p>
+    </div>
+  </div>
+  <button id="exportarPDF">📄 Exportar reporte PDF</button>
+</section>
+
+<section class="card">
+  <h2>🤖 Asistente AgroSIG</h2>
+
+  <p class="ia-texto">
+    Genera una recomendación automática según las variables microclimáticas y el último monitoreo registrado.
+  </p>
+
+  <button id="generarIA">Generar análisis</button>
+
+  <div id="resultadoIA" class="ia-resultado">
+    <p>Presiona el botón para generar una recomendación.</p>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Historial local</h2>
+  <div id="historial"></div>
+</section>
+
       <section class="card">
         <h2>🌦 Variables microclimáticas</h2>
 
@@ -56,12 +109,20 @@
           <option value="2025">2025</option>
         </select>
 
-        <label>Mes</label>
         <select id="mesClima">
-          <option value="enero">Enero</option>
-          <option value="febrero">Febrero</option>
-          <option value="marzo">Marzo</option>
-        </select>
+  <option value="enero">Enero</option>
+  <option value="febrero">Febrero</option>
+  <option value="marzo">Marzo</option>
+  <option value="abril">Abril</option>
+  <option value="mayo">Mayo</option>
+  <option value="junio">Junio</option>
+  <option value="julio">Julio</option>
+  <option value="agosto">Agosto</option>
+  <option value="septiembre">Septiembre</option>
+  <option value="octubre">Octubre</option>
+  <option value="noviembre">Noviembre</option>
+  <option value="diciembre">Diciembre</option>
+</select>
 
         <div id="datosClima">
           <p>Seleccione un mes para visualizar las variables climáticas.</p>
@@ -112,6 +173,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script type="module" src="js/firestore.js"></script>
 <script src="js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </body>
 </html>

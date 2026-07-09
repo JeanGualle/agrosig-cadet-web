@@ -26,6 +26,87 @@
       "heliofania": 87.8,
       "viento": 1.1,
       "nubosidad": 7
+    },
+    "abril": {
+      "temperatura": 16.5,
+      "humedad": 78,
+      "precipitacion": 119.9,
+      "evaporacion": 94.2,
+      "heliofania": 127.4,
+      "viento": 1.4,
+      "nubosidad": 6
+    },
+    "mayo": {
+      "temperatura": 16.7,
+      "humedad": 75,
+      "precipitacion": 59.7,
+      "evaporacion": 103.3,
+      "heliofania": 122.7,
+      "viento": 2.2,
+      "nubosidad": 5
+    },
+    "junio": {
+      "temperatura": 16.4,
+      "humedad": 73,
+      "precipitacion": 26.4,
+      "evaporacion": 111.4,
+      "heliofania": 147.1,
+      "viento": 1.9,
+      "nubosidad": 4
+    },
+    "julio": {
+      "temperatura": 16.1,
+      "humedad": 64,
+      "precipitacion": 4.2,
+      "evaporacion": 147.3,
+      "heliofania": 208.1,
+      "viento": 3.2,
+      "nubosidad": 4
+    },
+    "agosto": {
+      "temperatura": 16.2,
+      "humedad": 66,
+      "precipitacion": 12.4,
+      "evaporacion": 140.1,
+      "heliofania": 188.5,
+      "viento": 2.8,
+      "nubosidad": 4
+    },
+    "septiembre": {
+      "temperatura": 16.7,
+      "humedad": 66,
+      "precipitacion": 58.5,
+      "evaporacion": 143.2,
+      "heliofania": 175.6,
+      "viento": 2.8,
+      "nubosidad": 5
+    },
+    "octubre": {
+      "temperatura": 16.5,
+      "humedad": 74,
+      "precipitacion": 121.7,
+      "evaporacion": 119.9,
+      "heliofania": 141.2,
+      "viento": 1.5,
+      "nubosidad": 6
+    },
+    "noviembre": {
+      "temperatura": 16.1,
+      "humedad": 80,
+      "precipitacion": 64.8,
+      "evaporacion": 98.8,
+      "heliofania": 121.0,
+      "viento": 1.4,
+      "nubosidad": 5
+    },
+    "diciembre": {
+      "temperatura": 15.8,
+      "humedad": 66,
+      "precipitacion": 0.2,
+      "evaporacion": 147.8,
+      "heliofania": 198.6,
+      "viento": 1.8,
+      "nubosidad": 5
     }
   }
 }
